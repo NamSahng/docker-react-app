@@ -1,0 +1,18 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - echo "start creating an image with dockerfile"
+  - docker build -t namskygreen/react-app -f Dockerfile.dev .
+
+#  -- --coverage : test를 자세하게 보여줌
+# -e CI=true : travis가 작동하기 위한 추가 부분
+script:
+  - docker run -e CI=true namskygreen/react-app npm run test -- --coverage
+
+after_success:
+  - echo "Test done"
